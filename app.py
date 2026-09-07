@@ -1,6 +1,5 @@
 import streamlit as st
 from fpdf import FPDF
-import io
 
 # Configuración de la página
 st.set_page_config(
@@ -19,22 +18,48 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
+# Función para sanitizar textos y evitar errores de codificación Unicode en FPDF
+def clean_text(text):
+    if not isinstance(text, str):
+        return str(text)
+    replacements = {
+        '—': '-',
+        '–': '-',
+        '“': '"',
+        '”': '"',
+        '’': "'",
+        '•': '*',
+        '🔴': '[Riesgo Alto]',
+        '🟡': '[Madurez Intermedia]',
+        '🟢': '[Protección Avanzada]',
+        '📋': '',
+        '💻': '',
+        '🛡️': '',
+        '🔄': '',
+        '📄': ''
+    }
+    for orig, repl in replacements.items():
+        text = text.replace(orig, repl)
+    # Convertir caracteres especiales a latin-1 seguro
+    return text.encode('latin-1', 'replace').decode('latin-1')
+
+
 # Clase para generar el PDF del Informe Ejecutivo
 class PDFReport(FPDF):
     def header(self):
-        # Encabezado con color primario de TIS Solutions
         self.set_fill_color(10, 37, 64) # Azul oscuro corporativo
         self.rect(0, 0, 210, 25, 'F')
-        self.set_font('Helvetica', 'B', 15)
+        self.set_font('Helvetica', 'B', 14)
         self.set_text_color(255, 255, 255)
-        self.cell(0, 10, 'TIS SOLUTIONS — INFORME EJECUTIVO DE DIAGNÓSTICO', border=0, ln=True, align='C')
+        self.cell(0, 10, clean_text('TIS SOLUTIONS - INFORME EJECUTIVO DE DIAGNOSTICO'), border=0, ln=True, align='C')
         self.ln(10)
 
     def footer(self):
         self.set_y(-15)
         self.set_font('Helvetica', 'I', 8)
         self.set_text_color(128, 128, 128)
-        self.cell(0, 10, f'Página {self.page_no()} — TIS Solutions | www.tis-solutions.com', align='C')
+        self.cell(0, 10, clean_text(f'Página {self.page_no()} - TIS Solutions | www.tis-solutions.com'), align='C')
+
 
 def generar_pdf(empresa, contacto, email, usuarios, total_score, nivel, paquete, mensaje, respuestas_detalle):
     pdf = PDFReport()
@@ -44,20 +69,20 @@ def generar_pdf(empresa, contacto, email, usuarios, total_score, nivel, paquete,
     # Datos de la Empresa
     pdf.set_font('Helvetica', 'B', 12)
     pdf.set_text_color(10, 37, 64)
-    pdf.cell(0, 8, '1. Información de la Empresa Evaluada', ln=True)
+    pdf.cell(0, 8, clean_text('1. Información de la Empresa Evaluada'), ln=True)
     
     pdf.set_font('Helvetica', '', 10)
     pdf.set_text_color(50, 50, 50)
-    pdf.cell(100, 6, f'Empresa: {empresa}', ln=False)
-    pdf.cell(90, 6, f'Contacto: {contacto}', ln=True)
-    pdf.cell(100, 6, f'Correo: {email}', ln=False)
-    pdf.cell(90, 6, f'N° de Usuarios/Equipos: {usuarios}', ln=True)
+    pdf.cell(100, 6, clean_text(f'Empresa: {empresa}'), ln=False)
+    pdf.cell(90, 6, clean_text(f'Contacto: {contacto}'), ln=True)
+    pdf.cell(100, 6, clean_text(f'Correo: {email}'), ln=False)
+    pdf.cell(90, 6, clean_text(f'N° de Usuarios/Equipos: {usuarios}'), ln=True)
     pdf.ln(5)
 
     # Resumen del Diagnóstico
     pdf.set_font('Helvetica', 'B', 12)
     pdf.set_text_color(10, 37, 64)
-    pdf.cell(0, 8, '2. Resumen Ejecutivo del Diagnóstico', ln=True)
+    pdf.cell(0, 8, clean_text('2. Resumen Ejecutivo del Diagnóstico'), ln=True)
     
     pdf.set_fill_color(240, 244, 248)
     pdf.rect(10, pdf.get_y(), 190, 32, 'F')
@@ -65,44 +90,43 @@ def generar_pdf(empresa, contacto, email, usuarios, total_score, nivel, paquete,
     
     pdf.set_font('Helvetica', 'B', 11)
     pdf.set_text_color(0, 102, 204)
-    pdf.cell(0, 6, f' Puntuación de Madurez: {total_score} / 20 pts — Nivel: {nivel}', ln=True)
+    pdf.cell(0, 6, clean_text(f' Puntuación de Madurez: {total_score} / 20 pts - Nivel: {nivel}'), ln=True)
     
     pdf.set_font('Helvetica', 'B', 10)
     pdf.set_text_color(50, 50, 50)
-    pdf.cell(0, 6, f' Paquete Comercial Sugerido: {paquete}', ln=True)
+    pdf.cell(0, 6, clean_text(f' Paquete Comercial Sugerido: {paquete}'), ln=True)
     
     pdf.set_font('Helvetica', '', 9)
-    pdf.multi_cell(180, 5, f' Observaciones: {mensaje}')
+    pdf.multi_cell(180, 5, clean_text(f' Observaciones: {mensaje}'))
     pdf.ln(8)
 
-    # Detalle de Preguntas y Calificación
+    # Detalle por Pilar Tecnológico
     pdf.set_font('Helvetica', 'B', 12)
     pdf.set_text_color(10, 37, 64)
-    pdf.cell(0, 8, '3. Detalle de Evaluación por Pilar Tecnológico', ln=True)
+    pdf.cell(0, 8, clean_text('3. Detalle de Evaluación por Pilar Tecnológico'), ln=True)
     pdf.ln(2)
 
     for pilar, preguntas in respuestas_detalle.items():
         pdf.set_font('Helvetica', 'B', 10)
         pdf.set_fill_color(225, 235, 245)
-        pdf.cell(0, 6, f' {pilar}', ln=True, fill=True)
+        pdf.cell(0, 6, clean_text(f' {pilar}'), ln=True, fill=True)
         pdf.ln(2)
         
         pdf.set_font('Helvetica', '', 8.5)
         pdf.set_text_color(40, 40, 40)
         for p, r in preguntas:
-            pdf.multi_cell(190, 4, f'• {p}\n  Respuesta: {r}')
+            pdf.multi_cell(190, 4, clean_text(f'* {p}\n  Respuesta: {r}'))
             pdf.ln(1)
         pdf.ln(3)
 
-    # Recomendación Final de TIS Solutions
+    # Recomendación Final
     pdf.set_font('Helvetica', 'B', 11)
     pdf.set_text_color(10, 37, 64)
-    pdf.cell(0, 8, '4. Próximos Pasos Recomendados por TIS Solutions', ln=True)
+    pdf.cell(0, 8, clean_text('4. Próximos Pasos Recomendados por TIS Solutions'), ln=True)
     pdf.set_font('Helvetica', '', 9.5)
     pdf.set_text_color(50, 50, 50)
-    pdf.multi_cell(190, 5, "Para profundizar en este diagnóstico y cerrar las brechas identificadas, TIS Solutions ofrece una evaluación técnica sin costo de 30 minutos donde nuestros ingenieros revisarán sus licencias, políticas de seguridad y esquema de respaldos.")
+    pdf.multi_cell(190, 5, clean_text("Para profundizar en este diagnóstico y cerrar las brechas identificadas, TIS Solutions ofrece una evaluación técnica sin costo de 30 minutos donde nuestros ingenieros revisarán sus licencias, políticas de seguridad y esquema de respaldos."))
 
-    # Retornar los bytes del PDF
     return bytes(pdf.output())
 
 
@@ -209,7 +233,7 @@ with st.form("assessment_form"):
 
     submitted = st.form_submit_button("Generar Diagnóstico")
 
-# Procesar resultados y habilitar la descarga del PDF
+# Procesar resultados y habilitar descarga
 if submitted:
     if not empresa or not email or not nombre:
         st.error("Por favor completa todos los campos marcados con asterisco (*).")
@@ -250,7 +274,7 @@ if submitted:
         
         st.divider()
 
-        # Agrupar preguntas para el reporte en PDF
+        # Agrupar preguntas para el reporte PDF
         respuestas_detalle = {
             "Productividad y Colaboración (Microsoft)": [(q1_txt, q1), (q2_txt, q2), (q3_txt, q3)],
             "Ciberseguridad y Accesos (Acronis)": [(q4_txt, q4), (q5_txt, q5), (q6_txt, q6)],
@@ -260,7 +284,7 @@ if submitted:
         # Generar el archivo PDF en memoria
         pdf_bytes = generar_pdf(empresa, nombre, email, usuarios, total_score, nivel, paquete, mensaje, respuestas_detalle)
 
-        # Botón de Descarga del Informe PDF
+        # Botón de Descarga del PDF
         st.subheader("📥 Descargar Informe Ejecutivo")
         st.write("Obtén el reporte completo en formato PDF con el desglose de preguntas, nivel de riesgo y las recomendaciones de TIS Solutions.")
         
