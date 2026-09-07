@@ -177,7 +177,7 @@ with st.form("assessment_form"):
     ])
 
     st.divider()
-    st.subheader("🛡️ 3. Ciberseguridad y Protección de Dispositivos (Acronis)")
+    st.subheader("🛡️ 3. Ciberseguridad y Protección de Dispositivos ")
 
     q4_txt = "4. ¿Cómo protegen las computadoras y servidores contra malware o ciberataques?"
     q4 = st.radio(q4_txt, [
@@ -201,7 +201,7 @@ with st.form("assessment_form"):
     ])
 
     st.divider()
-    st.subheader("🔄 4. Respaldo y Continuidad del Negocio (Acronis)")
+    st.subheader("🔄 4. Respaldo y Continuidad del Negocio ")
 
     q7_txt = "7. ¿Con qué frecuencia se realizan respaldos de la información crítica?"
     q7 = st.radio(q7_txt, [
