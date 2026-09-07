@@ -276,9 +276,9 @@ if submitted:
 
         # Agrupar preguntas para el reporte PDF
         respuestas_detalle = {
-            "Productividad y Colaboración (Microsoft)": [(q1_txt, q1), (q2_txt, q2), (q3_txt, q3)],
-            "Ciberseguridad y Accesos (Acronis)": [(q4_txt, q4), (q5_txt, q5), (q6_txt, q6)],
-            "Respaldo y Continuidad (Acronis)": [(q7_txt, q7), (q8_txt, q8), (q9_txt, q9), (q10_txt, q10)]
+            "Productividad y Colaboración ": [(q1_txt, q1), (q2_txt, q2), (q3_txt, q3)],
+            "Ciberseguridad y Accesos ": [(q4_txt, q4), (q5_txt, q5), (q6_txt, q6)],
+            "Respaldo y Continuidad ": [(q7_txt, q7), (q8_txt, q8), (q9_txt, q9), (q10_txt, q10)]
         }
 
         # Generar el archivo PDF en memoria
