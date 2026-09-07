@@ -125,7 +125,7 @@ def generar_pdf(empresa, contacto, email, usuarios, total_score, nivel, paquete,
     pdf.cell(0, 8, clean_text('4. Próximos Pasos Recomendados por TIS Solutions'), ln=True)
     pdf.set_font('Helvetica', '', 9.5)
     pdf.set_text_color(50, 50, 50)
-    pdf.multi_cell(190, 5, clean_text("Para profundizar en este diagnóstico y cerrar las brechas identificadas, TIS Solutions ofrece una evaluación técnica sin costo de 30 minutos donde nuestros ingenieros revisarán sus licencias, políticas de seguridad y esquema de respaldos."))
+    pdf.multi_cell(190, 5, clean_text("Para profundizar en este diagnóstico y cerrar las brechas identificadas, TIS Solutions ofrece una evaluación técnica sin costo de 30 minutos donde nuestros especialistas revisarán sus licencias, políticas de seguridad y esquema de respaldos."))
 
     return bytes(pdf.output())
 
