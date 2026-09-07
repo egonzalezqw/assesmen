@@ -153,27 +153,27 @@ with st.form("assessment_form"):
         usuarios = st.selectbox("Número de usuarios/equipos", ["1 - 10", "11 - 50", "51 - 250", "Más de 250"])
 
     st.divider()
-    st.subheader("💻 2. Productividad y Colaboración (Microsoft)")
+    st.subheader("💻 2. Productividad y Colaboración ")
     
     q1_txt = "1. ¿Cómo gestionan el correo electrónico empresarial?"
     q1 = st.radio(q1_txt, [
-        "Correo gratuito/webmail sin dominio propio o sin administración central (0 pts)",
-        "Servidor propio antiguo o proveedor básico de hosting (1 pt)",
-        "Microsoft 365 con dominio corporativo y administración de usuarios (2 pts)"
+        "Correo gratuito/webmail sin dominio propio o sin administración central ",
+        "Servidor propio antiguo o proveedor básico de hosting ",
+        "Microsoft 365 con dominio corporativo y administración de usuarios "
     ])
 
     q2_txt = "2. ¿Cómo almacenan y comparten archivos de trabajo diario?"
     q2 = st.radio(q2_txt, [
-        "Guardados localmente en cada computadora o en carpetas compartidas sin respaldo (0 pts)",
-        "Servidor de archivos físico local sin acceso remoto seguro (1 pt)",
-        "OneDrive / SharePoint en la nube con permisos por usuario y acceso desde cualquier lugar (2 pts)"
+        "Guardados localmente en cada computadora o en carpetas compartidas sin respaldo ",
+        "Servidor de archivos físico local sin acceso remoto seguro ",
+        "OneDrive / SharePoint en la nube con permisos por usuario y acceso desde cualquier lugar "
     ])
 
     q3_txt = "3. ¿Qué herramientas utilizan para videollamadas y trabajo en equipo?"
     q3 = st.radio(q3_txt, [
-        "Aplicaciones informales/personales sin control de la empresa (0 pts)",
-        "Herramientas variadas no integradas entre sí (1 pt)",
-        "Microsoft Teams integrado con el calendario y documentos corporativos (2 pts)"
+        "Aplicaciones informales/personales sin control de la empresa ",
+        "Herramientas variadas no integradas entre sí ",
+        "Microsoft Teams integrado con el calendario y documentos corporativos "
     ])
 
     st.divider()
@@ -181,23 +181,23 @@ with st.form("assessment_form"):
 
     q4_txt = "4. ¿Cómo protegen las computadoras y servidores contra malware o ciberataques?"
     q4 = st.radio(q4_txt, [
-        "Cada usuario usa antivirus gratuito o el que viene por defecto en Windows (0 pts)",
-        "Antivirus tradicional pagado, pero administrado de forma individual en cada PC (1 pt)",
-        "Protección Endpoint avanzada (EDR/Cyber Protect con Acronis) administrada de forma centralizada (2 pts)"
+        "Cada usuario usa antivirus gratuito o el que viene por defecto en Windows ",
+        "Antivirus tradicional pagado, pero administrado de forma individual en cada PC ",
+        "Protección Endpoint avanzada (EDR/Cyber Protect con Acronis) administrada de forma centralizada "
     ])
 
     q5_txt = "5. ¿Tienen medidas contra correos de Phishing o suplantación de identidad?"
     q5 = st.radio(q5_txt, [
-        "No contamos con filtros de correo avanzados ni protección anti-phishing (0 pts)",
-        "Filtro básico de spam del proveedor de correo (1 pt)",
-        "Protección avanzada de correo con filtrado de enlaces y adjuntos maliciosos (2 pts)"
+        "No contamos con filtros de correo avanzados ni protección anti-phishing ",
+        "Filtro básico de spam del proveedor de correo ",
+        "Protección avanzada de correo con filtrado de enlaces y adjuntos maliciosos "
     ])
 
     q6_txt = "6. ¿Cómo gestionan las contraseñas y accesos de los empleados?"
     q6 = st.radio(q6_txt, [
-        "Sin políticas de contraseñas; se comparten accesos abiertamente (0 pts)",
-        "Contraseñas requeridas pero sin autenticación de dos factores (MFA) (1 pt)",
-        "Autenticación de Dos Factores (MFA) obligatoria en todos los accesos corporativos (2 pts)"
+        "Sin políticas de contraseñas; se comparten accesos abiertamente ",
+        "Contraseñas requeridas pero sin autenticación de dos factores (MFA) ",
+        "Autenticación de Dos Factores (MFA) obligatoria en todos los accesos corporativos "
     ])
 
     st.divider()
@@ -205,30 +205,30 @@ with st.form("assessment_form"):
 
     q7_txt = "7. ¿Con qué frecuencia se realizan respaldos de la información crítica?"
     q7 = st.radio(q7_txt, [
-        "No realizamos respaldos o los hacemos manualmente de forma esporádica (0 pts)",
-        "Respaldos semanales/diarios guardados solo en discos duros locales (1 pt)",
-        "Respaldos automatizados diarios en la nube con solución tipo Acronis (2 pts)"
+        "No realizamos respaldos o los hacemos manualmente de forma esporádica ",
+        "Respaldos semanales/diarios guardados solo en discos duros locales ",
+        "Respaldos automatizados diarios en la nube con solución tipo Acronis "
     ])
 
     q8_txt = "8. En caso de un ataque de Ransomware (secuestro de datos), ¿cuál es su nivel de respuesta?"
     q8 = st.radio(q8_txt, [
-        "Perderíamos la información o tendría que detenerse la operación por varios días (0 pts)",
-        "Podríamos recuperar algo de información, pero llevaría mucho tiempo reconfigurar todo (1 pt)",
-        "Contamos con protección activa contra Ransomware y restauración rápida de imágenes completas (2 pts)"
+        "Perderíamos la información o tendría que detenerse la operación por varios días ",
+        "Podríamos recuperar algo de información, pero llevaría mucho tiempo reconfigurar todo ",
+        "Contamos con protección activa contra Ransomware y restauración rápida de imágenes completas "
     ])
 
     q9_txt = "9. ¿Realizan pruebas periódicas de restauración de datos?"
     q9 = st.radio(q9_txt, [
-        "Nunca hemos probado recuperar un respaldo completo (0 pts)",
-        "Probamos recuperar archivos individuales únicamente cuando ocurre un problema (1 pt)",
-        "Ejecutamos pruebas periódicas planificadas de recuperación de desastres (2 pts)"
+        "Nunca hemos probado recuperar un respaldo completo ",
+        "Probamos recuperar archivos individuales únicamente cuando ocurre un problema ",
+        "Ejecutamos pruebas periódicas planificadas de recuperación de desastres "
     ])
 
     q10_txt = "10. ¿Tienen respaldadas las cuentas de Microsoft 365 (correo, OneDrive, SharePoint)?"
     q10 = st.radio(q10_txt, [
-        "No, asumimos que Microsoft respalda todo automáticamente (0 pts)",
-        "Respaldamos manualmente algunos archivos críticos (1 pt)",
-        "Contamos con respaldo dedicado Cloud-to-Cloud (ej. Acronis para M365) (2 pts)"
+        "No, asumimos que Microsoft respalda todo automáticamente ",
+        "Respaldamos manualmente algunos archivos críticos ",
+        "Contamos con respaldo dedicado Cloud-to-Cloud (ej. Acronis para M365) "
     ])
 
     submitted = st.form_submit_button("Generar Diagnóstico")
