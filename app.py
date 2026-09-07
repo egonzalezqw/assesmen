@@ -7,28 +7,30 @@ st.set_page_config(
     layout="centered"
 )
 
-# Estilo personalizado básico
+# Estilo personalizado
 st.markdown("""
     <style>
     .main-title { color: #0A2540; font-weight: 700; text-align: center; }
     .sub-title { color: #4A5568; text-align: center; margin-bottom: 2rem; }
     .card { background-color: #F8FAFC; padding: 1.5rem; border-radius: 8px; border-left: 5px solid #0066CC; }
+    .score-badge { font-size: 1.5rem; font-weight: bold; color: #0066CC; }
     </style>
 """, unsafe_allow_html=True)
 
 # Encabezado
 st.markdown("<h1 class='main-title'>TIS Solutions</h1>", unsafe_allow_html=True)
-st.markdown("<h4 class='sub-title'>Diagnóstico Rápido de Protección, Productividad y Continuidad</h4>", unsafe_allow_html=True)
+st.markdown("<h4 class='sub-title'>Diagnóstico de Productividad, Seguridad y Continuidad Operativa</h4>", unsafe_allow_html=True)
 
 st.write("""
-Responde estas breves preguntas sobre la infraestructura de tu empresa para conocer el nivel actual de madurez tecnológica y recibir recomendaciones personalizadas.
+Evalúa el nivel de riesgo y madurez tecnológica de tu empresa completando este test de **10 preguntas**. 
+Obtendrás un diagnóstico automático y recomendaciones sobre tu infraestructura.
 """)
 
 st.divider()
 
 # Formulario de Evaluación
 with st.form("assessment_form"):
-    st.subheader("1. Datos de Contacto")
+    st.subheader("📋 1. Datos de la Empresa")
     col1, col2 = st.columns(2)
     with col1:
         empresa = st.text_input("Nombre de la Empresa *")
@@ -38,83 +40,152 @@ with st.form("assessment_form"):
         usuarios = st.selectbox("Número de usuarios/equipos", ["1 - 10", "11 - 50", "51 - 250", "Más de 250"])
 
     st.divider()
-    st.subheader("2. Colaboración y Productividad (Microsoft)")
+    st.subheader("💻 2. Productividad y Colaboración (Microsoft)")
+    
     q1 = st.radio(
-        "¿Cómo gestiona su equipo el correo y los archivos corporativos?",
+        "1. ¿Cómo gestionan el correo electrónico empresarial?",
         [
-            "Usamos correo gratuito o servidores locales sin administración centralizada (0 pts)",
-            "Usamos Microsoft 365 / Google Workspace pero solo para correo básico (1 pt)",
-            "Usamos Microsoft 365 con almacenamiento en la nube y trabajo colaborativo completo (2 pts)"
+            "Correo gratuito/webmail sin dominio propio o sin administración central (0 pts)",
+            "Servidor propio antiguo o proveedor básico de hosting (1 pt)",
+            "Microsoft 365 con dominio corporativo y administración de usuarios (2 pts)"
         ]
     )
 
-    st.divider()
-    st.subheader("3. Seguridad y Protección de Equipos (Kaspersky)")
     q2 = st.radio(
-        "¿Qué nivel de protección antimalware/antivirus tienen los dispositivos de la empresa?",
+        "2. ¿Cómo almacenan y comparten archivos de trabajo diario?",
         [
-            "Los usuarios usan el antivirus por defecto o herramientas gratuitas individuales (0 pts)",
-            "Tenemos un antivirus pagado pero no se administra de manera centralizada (1 pt)",
-            "Contamos con protección Endpoint (ej. Kaspersky) centralizada y monitoreada (2 pts)"
+            "Guardados localmente en cada computadora o en carpetas compartidas sin respaldo (0 pts)",
+            "Servidor de archivos físico local sin acceso remoto seguro (1 pt)",
+            "OneDrive / SharePoint en la nube con permisos por usuario y acceso desde cualquier lugar (2 pts)"
+        ]
+    )
+
+    q3 = st.radio(
+        "3. ¿Qué herramientas utilizan para videollamadas y trabajo en equipo?",
+        [
+            "Aplicaciones informales/personales sin control de la empresa (0 pts)",
+            "Herramientas variadas no integradas entre sí (1 pt)",
+            "Microsoft Teams integrado con el calendario y documentos corporativos (2 pts)"
         ]
     )
 
     st.divider()
-    st.subheader("4. Respaldo y Continuidad del Negocio (Acronis)")
-    q3 = st.radio(
-        "En caso de ransomware o falla crítica de servidor/PC, ¿cómo respaldan la información?",
+    st.subheader("🛡️ 3. Ciberseguridad y Protección de Dispositivos")
+
+    q4 = st.radio(
+        "4. ¿Cómo protegen las computadoras y servidores contra malware o ciberataques?",
         [
-            "No tenemos respaldos automáticos o dependemos de copias manuales en discos externos (0 pts)",
-            "Hacemos respaldos locales pero no tenemos respaldo en la nube ni pruebas de restauración (1 pt)",
-            "Tenemos respaldos automatizados (locales/nube) con solución tipo Acronis y plan de recuperación (2 pts)"
+            "Cada usuario usa antivirus gratuito o el que viene por defecto en Windows (0 pts)",
+            "Antivirus tradicional pagado, pero administrado de forma individual en cada PC (1 pt)",
+            "Protección Endpoint avanzada (EDR/XDR) administrada de forma centralizada (2 pts)"
+        ]
+    )
+
+    q5 = st.radio(
+        "5. ¿Tienen medidas contra correos de Phishing o suplantación de identidad?",
+        [
+            "No contamos con filtros de correo avanzados ni protección anti-phishing (0 pts)",
+            "Filtro básico de spam del proveedor de correo (1 pt)",
+            "Protección avanzada de correo con filtrado de enlaces y adjuntos maliciosos (2 pts)"
+        ]
+    )
+
+    q6 = st.radio(
+        "6. ¿Cómo gestionan las contraseñas y accesos de los empleados?",
+        [
+            "Sin políticas de contraseñas; se comparten accesos abiertamente (0 pts)",
+            "Contraseñas requeridas pero sin autenticación de dos factores (MFA) (1 pt)",
+            "Autenticación de Dos Factores (MFA) obligatoria en todos los accesos corporativos (2 pts)"
+        ]
+    )
+
+    st.divider()
+    st.subheader("🔄 4. Respaldo y Continuidad del Negocio (Acronis)")
+
+    q7 = st.radio(
+        "7. ¿Con qué frecuencia se realizan respaldos de la información crítica?",
+        [
+            "No realizamos respaldos o los hacemos manualmente de forma esporádica (0 pts)",
+            "Respaldos semanales/diarios guardados solo en discos duros locales (1 pt)",
+            "Respaldos automatizados diarios en la nube con solución tipo Acronis (2 pts)"
+        ]
+    )
+
+    q8 = st.radio(
+        "8. En caso de un ataque de Ransomware (secuestro de datos), ¿cuál es su nivel de respuesta?",
+        [
+            "Perderíamos la información o tendría que detenerse la operación por varios días (0 pts)",
+            "Podríamos recuperar algo de información, pero llevaría mucho tiempo reconfigurar todo (1 pt)",
+            "Contamos con protección activa contra Ransomware y restauración rápida de imágenes completas (2 pts)"
+        ]
+    )
+
+    q9 = st.radio(
+        "9. ¿Realizan pruebas periódicas de restauración de datos?",
+        [
+            "Nunca hemos probado recuperar un respaldo completo (0 pts)",
+            "Probamos recuperar archivos individuales únicamente cuando ocurre un problema (1 pt)",
+            "Ejecutamos pruebas periódicas planificadas de recuperación de desastres (2 pts)"
+        ]
+    )
+
+    q10 = st.radio(
+        "10. ¿Tienen respaldadas las cuentas de Microsoft 365 (correo, OneDrive, SharePoint)?",
+        [
+            "No, asumimos que Microsoft respalda todo automáticamente (0 pts)",
+            "Respaldamos manualmente algunos archivos críticos (1 pt)",
+            "Contamos con respaldo dedicado Cloud-to-Cloud (ej. Acronis para M365) (2 pts)"
         ]
     )
 
     # Botón de envío
-    submitted = st.form_submit_button("Generar Diagnóstico")
+    submitted = st.form_submit_button("Ver Diagnóstico y Recomendación")
 
 # Procesamiento de resultados
 if submitted:
     if not empresa or not email or not nombre:
-        st.error("Por favor completa los campos obligatorios de contacto (*).")
+        st.error("Por favor completa los campos obligatorios (*).")
     else:
-        # Puntuación
-        score_m365 = 0 if "0 pts" in q1 else (1 if "1 pt" in q1 else 2)
-        score_kas = 0 if "0 pts" in q2 else (1 if "1 pt" in q2 else 2)
-        score_acronis = 0 if "0 pts" in q3 else (1 if "1 pt" in q3 else 2)
+        # Cálculo de puntajes por sección
+        respuestas = [q1, q2, q3, q4, q5, q6, q7, q8, q9, q10]
         
-        total_score = score_m365 + score_kas + score_acronis
+        total_score = 0
+        for r in respuestas:
+            if "2 pts" in r:
+                total_score += 2
+            elif "1 pt" in r:
+                total_score += 1
 
-        st.success("¡Diagnóstico generado con éxito!")
-        st.subheader(f"Resultado para {empresa}")
+        st.success("¡Diagnóstico completado con éxito!")
+        st.subheader(f"Resultado de Evaluación para {empresa}")
         
-        # Métrica global
-        st.metric(label="Puntuación Total de Madurez Tecnológica", value=f"{total_score} / 6 pts")
+        # Métrica global (Máximo 20 puntos)
+        st.metric(label="Puntuación de Madurez Tecnológica", value=f"{total_score} / 20 pts")
 
-        # Diagnóstico y Recomendación
+        # Nivel y recomendación
         st.divider()
-        if total_score <= 2:
+        if total_score <= 7:
             nivel = "Riesgo Alto 🔴"
-            paquete = "Paquete 1: Productividad Esencial o Paquete 2: Protección Empresarial"
-            mensaje = "Su empresa presenta brechas críticas en seguridad y continuidad. Una falla de equipo o incidente de malware podría detener la operación."
-        elif total_score <= 4:
+            paquete = "Paquete 1: Productividad Esencial"
+            mensaje = "Su empresa presenta vulnerabilidades críticas en respaldo y seguridad. Una falla de disco o infección de ransomware podría pausar las operaciones por tiempo indefinido."
+        elif total_score <= 14:
             nivel = "Madurez Intermedia 🟡"
             paquete = "Paquete 2: Protección Empresarial"
-            mensaje = "Cuenta con herramientas básicas, pero existen vulnerabilidades en la centralización de seguridad o en el plan de respaldo ante desastres."
+            mensaje = "Cuenta con bases operativas, pero existen brechas importantes en la automatización de respaldos en la nube, protección contra ransomware y autenticación segura."
         else:
             nivel = "Protección Avanzada 🟢"
             paquete = "Paquete 3: Continuidad 360°"
-            mensaje = "Su infraestructura cuenta con buenas bases. Le recomendamos auditar periódicamente sus respaldos y mantener soporte administrado."
+            mensaje = "Su empresa cuenta con una postura sólida. Le recomendamos auditorías periódicas y mantener monitoreo administrado para prevenir nuevas amenazas."
 
-        # Mostrar resultado en caja destacada
+        # Muestra del resultado
         st.markdown(f"""
         <div class="card">
-            <h3>Nivel de Evaluación: {nivel}</h3>
-            <p><b>Diagnóstico:</b> {mensaje}</p>
+            <h3>Estado Actual: {nivel}</h3>
+            <p><b>Diagnóstico General:</b> {mensaje}</p>
             <hr>
             <h4>Paquete Sugerido para {empresa}:</h4>
-            <p style="font-size:1.2rem; color:#0066CC; font-weight:bold;">{paquete}</p>
+            <p class="score-badge">{paquete}</p>
         </div>
         """, unsafe_allow_html=True)
 
-        st.info("Un especialista comercial de **TIS Solutions** se pondrá en contacto al correo proporcionado para agendar la evaluación técnica sin costo de 30 minutos.")
+        st.info("Un especialista de **TIS Solutions** revisará sus respuestas y le enviará el informe detallado al correo proporcionado.")
