@@ -40,7 +40,6 @@ def clean_text(text):
     }
     for orig, repl in replacements.items():
         text = text.replace(orig, repl)
-    # Convertir caracteres especiales a latin-1 seguro
     return text.encode('latin-1', 'replace').decode('latin-1')
 
 
@@ -125,18 +124,18 @@ def generar_pdf(empresa, contacto, email, usuarios, total_score, nivel, paquete,
     pdf.cell(0, 8, clean_text('4. Próximos Pasos Recomendados por TIS Solutions'), ln=True)
     pdf.set_font('Helvetica', '', 9.5)
     pdf.set_text_color(50, 50, 50)
-    pdf.multi_cell(190, 5, clean_text("Para profundizar en este diagnóstico y cerrar las brechas identificadas, TIS Solutions ofrece una evaluación técnica sin costo de 30 minutos donde nuestros especialistas revisarán sus licencias, políticas de seguridad y esquema de respaldos."))
+    pdf.multi_cell(190, 5, clean_text("Para profundizar en este diagnóstico y cerrar las brechas identificadas, TIS Solutions ofrece una evaluación técnica sin costo de 30 minutos donde nuestros ingenieros revisarán sus licencias, políticas de seguridad y esquema de respaldos."))
 
     return bytes(pdf.output())
 
 
 # Encabezado Principal en Streamlit
 st.markdown("<h1 class='main-title'>TIS Solutions</h1>", unsafe_allow_html=True)
-st.markdown("<h4 class='sub-title'>Diagnóstico de Productividad, Seguridad y Continuidad Operativa</h4>", unsafe_allow_html=True)
+st.markdown("<h4 class='sub-title'>Diagnóstico de Productividad, Protección y Continuidad Operativa</h4>", unsafe_allow_html=True)
 
 st.write("""
-Evalúa el nivel de riesgo y madurez tecnológica de tu empresa completando este test de **10 preguntas**. 
-Obtendrás un diagnóstico automático en pantalla y podrás **descargar tu Informe Ejecutivo en PDF**.
+Complete este breve test de **10 preguntas** para conocer la postura tecnológica de su empresa. 
+Al finalizar, obtendrá su diagnóstico en pantalla y podrá **descargar el Informe Ejecutivo en PDF**.
 """)
 
 st.divider()
@@ -153,109 +152,143 @@ with st.form("assessment_form"):
         usuarios = st.selectbox("Número de usuarios/equipos", ["1 - 10", "11 - 50", "51 - 250", "Más de 250"])
 
     st.divider()
-    st.subheader("💻 2. Productividad y Colaboración ")
+    st.subheader("💻 2. Trabajo en Equipo y Productividad")
     
-    q1_txt = "1. ¿Cómo gestionan el correo electrónico empresarial?"
-    q1 = st.radio(q1_txt, [
-        "Correo gratuito/webmail sin dominio propio o sin administración central ",
-        "Servidor propio antiguo o proveedor básico de hosting ",
-        "Microsoft 365 con dominio corporativo y administración de usuarios "
-    ])
+    q1_txt = "1. ¿Cómo manejan los correos electrónicos de la empresa?"
+    q1_opts = [
+        "Usamos cuentas gratuitas o proveedores básicos sin control central",
+        "Tenemos un servidor propio o correo corporativo básico",
+        "Usamos Microsoft 365 administrado profesionalmente"
+    ]
+    q1 = st.radio(q1_txt, q1_opts)
 
-    q2_txt = "2. ¿Cómo almacenan y comparten archivos de trabajo diario?"
-    q2 = st.radio(q2_txt, [
-        "Guardados localmente en cada computadora o en carpetas compartidas sin respaldo ",
-        "Servidor de archivos físico local sin acceso remoto seguro ",
-        "OneDrive / SharePoint en la nube con permisos por usuario y acceso desde cualquier lugar "
-    ])
+    q2_txt = "2. ¿Dónde guardan y comparten los documentos de trabajo?"
+    q2_opts = [
+        "En la computadora de cada empleado o en carpetas sin copia de seguridad",
+        "En un servidor físico dentro de la oficina",
+        "En la nube (OneDrive / SharePoint) accesibles de forma segura desde cualquier lugar"
+    ]
+    q2 = st.radio(q2_txt, q2_opts)
 
-    q3_txt = "3. ¿Qué herramientas utilizan para videollamadas y trabajo en equipo?"
-    q3 = st.radio(q3_txt, [
-        "Aplicaciones informales/personales sin control de la empresa ",
-        "Herramientas variadas no integradas entre sí ",
-        "Microsoft Teams integrado con el calendario y documentos corporativos "
-    ])
-
-    st.divider()
-    st.subheader("🛡️ 3. Ciberseguridad y Protección de Dispositivos ")
-
-    q4_txt = "4. ¿Cómo protegen las computadoras y servidores contra malware o ciberataques?"
-    q4 = st.radio(q4_txt, [
-        "Cada usuario usa antivirus gratuito o el que viene por defecto en Windows ",
-        "Antivirus tradicional pagado, pero administrado de forma individual en cada PC ",
-        "Protección Endpoint avanzada (EDR/Cyber Protect con Acronis) administrada de forma centralizada "
-    ])
-
-    q5_txt = "5. ¿Tienen medidas contra correos de Phishing o suplantación de identidad?"
-    q5 = st.radio(q5_txt, [
-        "No contamos con filtros de correo avanzados ni protección anti-phishing ",
-        "Filtro básico de spam del proveedor de correo ",
-        "Protección avanzada de correo con filtrado de enlaces y adjuntos maliciosos "
-    ])
-
-    q6_txt = "6. ¿Cómo gestionan las contraseñas y accesos de los empleados?"
-    q6 = st.radio(q6_txt, [
-        "Sin políticas de contraseñas; se comparten accesos abiertamente ",
-        "Contraseñas requeridas pero sin autenticación de dos factores (MFA) ",
-        "Autenticación de Dos Factores (MFA) obligatoria en todos los accesos corporativos "
-    ])
+    q3_txt = "3. ¿Qué herramientas usan para comunicarse y hacer reuniones?"
+    q3_opts = [
+        "Aplicaciones personales e informales (como WhatsApp personal sin control)",
+        "Varias herramientas distintas que no están conectadas entre sí",
+        "Una plataforma corporativa integrada (como Microsoft Teams)"
+    ]
+    q3 = st.radio(q3_txt, q3_opts)
 
     st.divider()
-    st.subheader("🔄 4. Respaldo y Continuidad del Negocio ")
+    st.subheader("🛡️ 3. Protección de Equipos y Accesos")
 
-    q7_txt = "7. ¿Con qué frecuencia se realizan respaldos de la información crítica?"
-    q7 = st.radio(q7_txt, [
-        "No realizamos respaldos o los hacemos manualmente de forma esporádica ",
-        "Respaldos semanales/diarios guardados solo en discos duros locales ",
-        "Respaldos automatizados diarios en la nube con solución tipo Acronis "
-    ])
+    q4_txt = "4. ¿Cómo protegen las computadoras de la empresa contra virus o ataques?"
+    q4_opts = [
+        "Cada usuario usa el antivirus gratuito que viene en su equipo",
+        "Compramos un antivirus tradicional, pero no lo monitoreamos centralmente",
+        "Contamos con una solución de protección profesional administrada por expertos"
+    ]
+    q4 = st.radio(q4_txt, q4_opts)
 
-    q8_txt = "8. En caso de un ataque de Ransomware (secuestro de datos), ¿cuál es su nivel de respuesta?"
-    q8 = st.radio(q8_txt, [
-        "Perderíamos la información o tendría que detenerse la operación por varios días ",
-        "Podríamos recuperar algo de información, pero llevaría mucho tiempo reconfigurar todo ",
-        "Contamos con protección activa contra Ransomware y restauración rápida de imágenes completas "
-    ])
+    q5_txt = "5. ¿Cómo evitan que el personal abra correos sospechosos o engañosos?"
+    q5_opts = [
+        "No tenemos ningún filtro de seguridad en el correo",
+        "Solo tenemos el filtro de correo no deseado (spam) habitual",
+        "Contamos con protección avanzada que analiza enlaces y archivos peligrosos"
+    ]
+    q5 = st.radio(q5_txt, q5_opts)
 
-    q9_txt = "9. ¿Realizan pruebas periódicas de restauración de datos?"
-    q9 = st.radio(q9_txt, [
-        "Nunca hemos probado recuperar un respaldo completo ",
-        "Probamos recuperar archivos individuales únicamente cuando ocurre un problema ",
-        "Ejecutamos pruebas periódicas planificadas de recuperación de desastres "
-    ])
+    q6_txt = "6. ¿Cómo controlan los accesos y contraseñas de los empleados?"
+    q6_opts = [
+        "No hay políticas; las claves se comparten libremente",
+        "Se exigen claves, pero solo ingresan un nombre de usuario y contraseña",
+        "Es obligatorio confirmar el ingreso mediante un código en el celular (doble factor)"
+    ]
+    q6 = st.radio(q6_txt, q6_opts)
 
-    q10_txt = "10. ¿Tienen respaldadas las cuentas de Microsoft 365 (correo, OneDrive, SharePoint)?"
-    q10 = st.radio(q10_txt, [
-        "No, asumimos que Microsoft respalda todo automáticamente ",
-        "Respaldamos manualmente algunos archivos críticos ",
-        "Contamos con respaldo dedicado Cloud-to-Cloud (ej. Acronis para M365) "
-    ])
+    st.divider()
+    st.subheader("🔄 4. Respaldo y Continuidad del Negocio")
+
+    q7_txt = "7. ¿Con qué frecuencia guardan copias de respaldo de su información?"
+    q7_opts = [
+        "No hacemos respaldos o se hacen de forma manual de vez en cuando",
+        "Guardamos copias en discos duros externos o memorias USB dentro de la oficina",
+        "Tenemos un sistema que respalda todo automáticamente en la nube todos los días"
+    ]
+    q7 = st.radio(q7_txt, q7_opts)
+
+    q8_txt = "8. Si un virus bloquea sus computadoras, ¿qué sucedería con su operación?"
+    q8_opts = [
+        "Perderíamos la información o la empresa se detendría por varios días",
+        "Recuperaríamos algo, pero tomaría mucho tiempo y esfuerzo volver a trabajar",
+        "Podríamos restaurar todo el sistema rápidamente desde nuestros respaldos"
+    ]
+    q8 = st.radio(q8_txt, q8_opts)
+
+    q9_txt = "9. ¿Han probado recuperar la información de sus respaldos para comprobar que funcionan?"
+    q9_opts = [
+        "Nunca hemos probado recuperar una copia de respaldo",
+        "Solo intentamos buscar un archivo cuando alguien pierde algo de forma accidental",
+        "Hacemos pruebas periódicas para verificar que las copias funcionen correctamente"
+    ]
+    q9 = st.radio(q9_txt, q9_opts)
+
+    q10_txt = "10. ¿Tienen una copia de respaldo independiente de su correo y archivos en la nube?"
+    q10_opts = [
+        "No, asumimos que el proveedor de correo respalda todo automáticamente",
+        "Guardamos copias manuales de algunos archivos importantes",
+        "Tenemos un respaldo automático independiente dedicado a la nube"
+    ]
+    q10 = st.radio(q10_txt, q10_opts)
 
     submitted = st.form_submit_button("Generar Diagnóstico")
 
-# Procesar resultados y habilitar descarga
+# Mapeo interno de puntuación por opción seleccionada
+scores_map = {
+    # Puntuación Q1
+    q1_opts[0]: 0, q1_opts[1]: 1, q1_opts[2]: 2,
+    # Puntuación Q2
+    q2_opts[0]: 0, q2_opts[1]: 1, q2_opts[2]: 2,
+    # Puntuación Q3
+    q3_opts[0]: 0, q3_opts[1]: 1, q3_opts[2]: 2,
+    # Puntuación Q4
+    q4_opts[0]: 0, q4_opts[1]: 1, q4_opts[2]: 2,
+    # Puntuación Q5
+    q5_opts[0]: 0, q5_opts[1]: 1, q5_opts[2]: 2,
+    # Puntuación Q6
+    q6_opts[0]: 0, q6_opts[1]: 1, q6_opts[2]: 2,
+    # Puntuación Q7
+    q7_opts[0]: 0, q7_opts[1]: 1, q7_opts[2]: 2,
+    # Puntuación Q8
+    q8_opts[0]: 0, q8_opts[1]: 1, q8_opts[2]: 2,
+    # Puntuación Q9
+    q9_opts[0]: 0, q9_opts[1]: 1, q9_opts[2]: 2,
+    # Puntuación Q10
+    q10_opts[0]: 0, q10_opts[1]: 1, q10_opts[2]: 2,
+}
+
+# Procesar resultados
 if submitted:
     if not empresa or not email or not nombre:
         st.error("Por favor completa todos los campos marcados con asterisco (*).")
     else:
         respuestas = [q1, q2, q3, q4, q5, q6, q7, q8, q9, q10]
         
-        # Conteo de puntos
-        total_score = sum(2 if "2 pts" in r else (1 if "1 pt" in r else 0) for r in respuestas)
+        # Conteo interno de puntos mediante el diccionario
+        total_score = sum(scores_map.get(r, 0) for r in respuestas)
 
-        # Lógica de diagnóstico
+        # Diagnóstico y paquete sugerido
         if total_score <= 7:
             nivel = "Riesgo Alto"
             paquete = "Paquete 1: Productividad Esencial"
-            mensaje = "Su empresa presenta vulnerabilidades críticas en respaldo y seguridad. Una falla de disco o infección de ransomware podría pausar las operaciones por tiempo indefinido."
+            mensaje = "Su empresa presenta vulnerabilidades críticas en respaldo y seguridad. Una falla en un equipo o un ataque informático podría pausar sus operaciones indefinidamente."
         elif total_score <= 14:
             nivel = "Madurez Intermedia"
             paquete = "Paquete 2: Protección Empresarial"
-            mensaje = "Cuenta con bases operativas, pero existen brechas importantes en la automatización de respaldos en la nube, protección contra ransomware y autenticación segura."
+            mensaje = "Cuenta con buenas bases operativas, pero existen brechas importantes en la automatización de respaldos en la nube y en la protección de sus cuentas."
         else:
             nivel = "Protección Avanzada"
             paquete = "Paquete 3: Continuidad 360°"
-            mensaje = "Su empresa cuenta con una postura sólida. Le recomendamos auditorías periódicas y mantener monitoreo administrado para prevenir nuevas amenazas."
+            mensaje = "Su empresa cuenta con una postura tecnológica sólida. Le recomendamos mantener revisiones periódicas para prevenir nuevas amenazas."
 
         st.success("¡Diagnóstico completado con éxito!")
         st.subheader(f"Resultado de Evaluación para {empresa}")
@@ -274,19 +307,19 @@ if submitted:
         
         st.divider()
 
-        # Agrupar preguntas para el reporte PDF
+        # Agrupar preguntas para el PDF
         respuestas_detalle = {
-            "Productividad y Colaboración ": [(q1_txt, q1), (q2_txt, q2), (q3_txt, q3)],
-            "Ciberseguridad y Accesos ": [(q4_txt, q4), (q5_txt, q5), (q6_txt, q6)],
-            "Respaldo y Continuidad ": [(q7_txt, q7), (q8_txt, q8), (q9_txt, q9), (q10_txt, q10)]
+            "Trabajo en Equipo y Productividad (Microsoft)": [(q1_txt, q1), (q2_txt, q2), (q3_txt, q3)],
+            "Protección de Equipos y Accesos (Acronis / Microsoft)": [(q4_txt, q4), (q5_txt, q5), (q6_txt, q6)],
+            "Respaldo y Continuidad del Negocio (Acronis)": [(q7_txt, q7), (q8_txt, q8), (q9_txt, q9), (q10_txt, q10)]
         }
 
-        # Generar el archivo PDF en memoria
+        # Generar PDF en memoria
         pdf_bytes = generar_pdf(empresa, nombre, email, usuarios, total_score, nivel, paquete, mensaje, respuestas_detalle)
 
         # Botón de Descarga del PDF
         st.subheader("📥 Descargar Informe Ejecutivo")
-        st.write("Obtén el reporte completo en formato PDF con el desglose de preguntas, nivel de riesgo y las recomendaciones de TIS Solutions.")
+        st.write("Obtenga el reporte completo en PDF con el desglose de sus respuestas y las recomendaciones de TIS Solutions.")
         
         st.download_button(
             label="📄 Descargar Informe Ejecutivo (PDF)",
